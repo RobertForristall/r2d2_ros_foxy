@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="r2d2">
+    
+    <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2_leg.urdf.xacro"/>
+    <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2_body.urdf.xacro"/>
+    
+    <link name="base_unit">
+        <pose>0 0 0 0 0 0</pose>
+    </link>
+        
+    <xacro:body/>
+
+</robot>

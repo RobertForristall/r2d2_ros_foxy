@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="r2d2">
+    
+    <xacro:macro name="body">
+
+        <link name="top_body">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="20.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual name="top_body_visual">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <sphere radius="1.5"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                </material>
+            </visual>
+            <collision name='top_body_collision'>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <sphere radius="1.5"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="bottom_body">
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="30.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual name="bottom_body_visual">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="1.5" length="2.0"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                </material>
+            </visual>
+            <collision name='bottom_body_collision'>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="1.5" length="2.0"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="body_joint" type="fixed">
+            <parent link="bottom_body"/>
+            <child link="top_body"/>
+            <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+        </joint>
+
+        <joint name="base_joint" type="fixed">
+            <parent link="base_unit"/>
+            <child link="bottom_body"/>
+            <origin xyz="0.0 0.0 1.5" rpy="0.0 0.0 0.0"/>
+        </joint>
+
+    </xacro:macro>
+
+</robot>
