@@ -15,12 +15,9 @@
         
     <xacro:body/>
 
-    <xacro:control hardware_flag='gazebo'/>
-
-    <gazebo>
-        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-            <parameters>$(find r2d2_robot_description)/config/ros2_controllers.yaml</parameters>
-        </plugin>
-    </gazebo>
+    <xacro:leg side='right'/>
+    <xacro:leg side='left'/>
+    
+    <xacro:control hardware_flag='rviz'/>
 
 </robot>

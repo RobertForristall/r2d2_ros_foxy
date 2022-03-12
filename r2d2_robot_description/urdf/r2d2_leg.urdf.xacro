@@ -2,30 +2,69 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="r2d2">
     
-    <xacro:macro name="leg" params="wheel_1_name wheel_2_name body_joint_name">
-        <link name="top_leg">
+    <xacro:macro name="leg" params="side">
+        
+        <link name="${side}_leg_top_link">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="5.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual name="${side}_leg_top_link_visual">
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.3" length="0.5"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision name="${side}_leg_top_link_collision">
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.3" length="0.5"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${side}_leg_middle_link">
             <inertial>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <mass value="10.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
-            <visual name="top_leg_visual">
+            <visual name="${side}_leg_middle_link_visual">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="1.0 1.0 2.0"/>
+                    <box size="0.3 1.0 2.0"/>
                 </geometry>
-                <material name="">
-                    <color rgba="1.0 0.0 0.0 1.0"/>
-                    <texture filename=""/>
-                </material>
+                <material name="silver"/>
             </visual>
-            <collision name="top_leg_collision">
+            <collision name="${side}_leg_middle_link_collision">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="1.0 1.0 2.0"/>
+                    <box size="0.3 1.0 2.0"/>
                 </geometry>
             </collision>
         </link>
+
+        <joint name="${side}_top_joint" type="fixed">
+            <xacro:if value='${side == "right"}'>
+                <origin xyz="2.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+            </xacro:if>
+            <xacro:unless value='${side == "right"}'>
+                <origin xyz="-2.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+            </xacro:unless>
+            <parent link="bottom_body"/>
+            <child link="${side}_leg_top_link"/>
+            <axis xyz="1.0 0.0 0.0"/>
+        </joint>
+
+        <joint name="${side}_middle_joint" type="fixed">
+            <origin xyz="0.0 0.0 -1.0" rpy="0.0 0.0 0.0"/>
+            <parent link="${side}_leg_top_link"/>
+            <child link="${side}_leg_middle_link"/>
+            <axis xyz="0.0 0.0 0.0"/>
+        </joint>
+
     </xacro:macro>
 
 </robot>

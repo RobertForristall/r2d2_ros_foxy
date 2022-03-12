@@ -1,0 +1,19 @@
+r2d2:
+  controller_manager:
+    ros__parameters:
+      update_rate: 1000
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+      
+      head_velocity_controller:
+        type: velocity_controllers/JointGroupVelocityController
+  
+  head_velocity_controller:
+    ros__parameters:
+      joints:
+        - head_joint
+      pid: {p: 100.0, i: 0.01, d: 10.0}
+      command_interfaces:
+        - velocity
+  

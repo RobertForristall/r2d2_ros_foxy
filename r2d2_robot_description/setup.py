@@ -1,12 +1,22 @@
 from struct import pack
 from setuptools import setup
 
+config_files = [
+    'urdf/r2d2_body.urdf.xacro', 
+    'urdf/r2d2_leg.urdf.xacro', 
+    'urdf/r2d2.urdf.xacro', 
+    'urdf/general_macros.xacro', 
+    'urdf/materials.xacro',
+    'urdf/r2d2_control.urdf.xacro',
+    'urdf/r2d2_rviz.urdf.xacro'
+]
+
 package_name = 'r2d2_robot_description'
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
-data_files.append(('share/' + package_name + '/urdf', ['urdf/r2d2_body.urdf.xacro', 'urdf/r2d2_leg.urdf.xacro', 'urdf/r2d2.urdf.xacro']))
+data_files.append(('share/' + package_name + '/urdf', config_files))
 data_files.append(('share/' + package_name + '/launch', ['launch/rviz.py']))
-data_files.append(('share/' + package_name + '/config', ['config/r2d2.rviz']))
+data_files.append(('share/' + package_name + '/config', ['config/r2d2.rviz', 'config/ros2_controllers.yaml', 'config/rviz_controllers.yaml']))
 data_files.append(('share/' + package_name, ['package.xml']))
 
 setup(

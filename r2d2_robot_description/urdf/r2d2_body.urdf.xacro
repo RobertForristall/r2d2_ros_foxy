@@ -14,9 +14,7 @@
                 <geometry>
                     <sphere radius="1.5"/>
                 </geometry>
-                <material name="">
-                    <color rgba="1.0 0.0 0.0 1.0"/>
-                </material>
+                <material name="silver"/>
             </visual>
             <collision name='top_body_collision'>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
@@ -38,9 +36,7 @@
                 <geometry>
                     <cylinder radius="1.5" length="2.0"/>
                 </geometry>
-                <material name="">
-                    <color rgba="1.0 0.0 0.0 1.0"/>
-                </material>
+                <material name="silver"/>
             </visual>
             <collision name='bottom_body_collision'>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
@@ -50,10 +46,11 @@
             </collision>
         </link>
 
-        <joint name="body_joint" type="fixed">
+        <joint name="head_joint" type="revolute">
             <parent link="bottom_body"/>
             <child link="top_body"/>
             <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+            <limit lower="-1.0" upper="1.0" effort="0.0" velocity="1.0"/>
         </joint>
 
         <joint name="base_joint" type="fixed">
