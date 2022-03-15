@@ -8,7 +8,7 @@
             <inertial>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <mass value="5.0"/>
-                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+                <xacro:solid_cylinder_inertia m="5" h="0.5" r="0.3"/>
             </inertial>
             <visual name="${side}_leg_top_link_visual">
                 <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
@@ -29,29 +29,92 @@
             <inertial>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <mass value="10.0"/>
-                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+                <xacro:solid_cuboid_inertia m="10" h="2.5" d="0.3" w="1.0"/>
             </inertial>
             <visual name="${side}_leg_middle_link_visual">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="0.3 1.0 2.0"/>
+                    <box size="0.3 1.0 2.5"/>
                 </geometry>
                 <material name="silver"/>
             </visual>
             <collision name="${side}_leg_middle_link_collision">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="0.3 1.0 2.0"/>
+                    <box size="0.3 1.0 2.5"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${side}_leg_foot_link">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="5.0"/>
+                <xacro:solid_cuboid_inertia m="5" h="0.5" d="1" w="1"/>
+            </inertial>
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="1.0 1.0 0.5"/>
+                </geometry>
+                <material name='silver'/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="1.0 1.0 0.5"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${side}_front_wheel_link">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="1.0"/>
+                <xacro:solid_cylinder_inertia m="1.0" h="0.75" r="0.25"/>
+            </inertial>
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.25" length="0.75"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.25" length="0.75"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${side}_back_wheel_link">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="1.0"/>
+                <xacro:solid_cylinder_inertia m="1.0" h="0.75" r="0.25"/>
+            </inertial>
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.25" length="0.75"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 1.5707"/>
+                <geometry>
+                    <cylinder radius="0.25" length="0.75"/>
                 </geometry>
             </collision>
         </link>
 
         <joint name="${side}_top_joint" type="fixed">
             <xacro:if value='${side == "right"}'>
-                <origin xyz="2.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+                <origin xyz="1.75 0.0 0.75" rpy="0.0 0.0 0.0"/>
             </xacro:if>
             <xacro:unless value='${side == "right"}'>
-                <origin xyz="-2.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+                <origin xyz="-1.75 0.0 0.75" rpy="0.0 0.0 0.0"/>
             </xacro:unless>
             <parent link="bottom_body"/>
             <child link="${side}_leg_top_link"/>
@@ -59,10 +122,31 @@
         </joint>
 
         <joint name="${side}_middle_joint" type="fixed">
-            <origin xyz="0.0 0.0 -1.0" rpy="0.0 0.0 0.0"/>
+            <origin xyz="0.0 0.0 -1.25" rpy="0.0 0.0 0.0"/>
             <parent link="${side}_leg_top_link"/>
             <child link="${side}_leg_middle_link"/>
             <axis xyz="0.0 0.0 0.0"/>
+        </joint>
+
+        <joint name="${side}_foot_joint" type="fixed">
+            <origin xyz="0.0 0.0 -1.5" rpy="0.0 0.0 0.0"/>
+            <parent link="${side}_leg_middle_link"/>
+            <child link="${side}_leg_foot_link"/>
+            <axis xyz="0.0 0.0 0.0"/>
+        </joint>
+
+        <joint name="${side}_front_wheel_joint" type="continuous">
+            <origin xyz="0.0 0.25 -0.1" rpy="0.0 0.0 0.0"/>
+            <parent link="${side}_leg_foot_link"/>
+            <child link="${side}_front_wheel_link"/>
+            <axis xyz="0.0 1 0.0"/>
+        </joint>
+
+        <joint name="${side}_back_wheel_joint" type="continuous">
+            <origin xyz="0.0 -0.25 -0.1" rpy="0.0 0.0 0.0"/>
+            <parent link="${side}_leg_foot_link"/>
+            <child link="${side}_back_wheel_link"/>
+            <axis xyz="0.0 1 0.0"/>
         </joint>
 
     </xacro:macro>

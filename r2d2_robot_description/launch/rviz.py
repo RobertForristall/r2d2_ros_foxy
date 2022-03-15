@@ -60,6 +60,14 @@ def generate_launch_description():
         output='screen'
     )
 
+    # Spawn the diff drive controller
+    diff_drive_controller = Node(
+        package='controller_manager',
+        executable='spawner.py',
+        arguments=['diff_drive_controller'],
+        output='screen'
+    )
+
     # Load rviz
     rviz =  Node(
         package='rviz2',
@@ -74,6 +82,7 @@ def generate_launch_description():
         controller_manager,
         joint_state_broad,
         head_velocity_controller,
+        diff_drive_controller,
         rviz
     ])
 
