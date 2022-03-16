@@ -4,6 +4,7 @@
     <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2_leg.urdf.xacro"/>
     <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2_body.urdf.xacro"/>
     <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2_control.urdf.xacro"/>
+    <xacro:include filename="$(find r2d2_robot_description)/urdf/r2d2.gazebo.xacro"/>
 
     <xacro:include filename="$(find r2d2_robot_description)/urdf/general_macros.xacro"/>
     <xacro:include filename="$(find r2d2_robot_description)/urdf/materials.xacro"/>
@@ -14,6 +15,11 @@
     </link>
         
     <xacro:body/>
+
+    <xacro:leg side='right'/>
+    <xacro:leg side='left'/>
+
+    <xacro:gazebo_tags />
 
     <xacro:control hardware_flag='gazebo'/>
 

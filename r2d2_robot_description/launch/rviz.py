@@ -1,7 +1,9 @@
 # Launch file for starting the r2d2 model in rviz
 # Written by Robert Forristall
 
+from http.server import executable
 import os
+from tkinter import N
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
@@ -60,12 +62,28 @@ def generate_launch_description():
         output='screen'
     )
 
+    # Spawn the head driver node
+    # *allows easy access to ros2_control controller
+    head_driver = Node(
+        package='r2d2_robot_description',
+        executable='head_driver',
+        output='screen',
+        arguments=['rviz']
+    )
+
     # Spawn the diff drive controller
     diff_drive_controller = Node(
         package='controller_manager',
         executable='spawner.py',
         arguments=['diff_drive_controller'],
         output='screen'
+    )
+
+    movement_driver = Node(
+        package='r2d2_robot_description',
+        executable='movement_driver',
+        output='screen',
+        arguments=['rviz']
     )
 
     # Load rviz
@@ -82,7 +100,9 @@ def generate_launch_description():
         controller_manager,
         joint_state_broad,
         head_velocity_controller,
+        head_driver,
         diff_drive_controller,
+        movement_driver,
         rviz
     ])
 
